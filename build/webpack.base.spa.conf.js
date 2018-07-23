@@ -2,7 +2,7 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
+const vueLoaderConfig = require('./vue-loader.conf')('spa')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -13,14 +13,14 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/pages/h5/main.js'
+    app: './src/pages/spa/main.js'
   }, //修改入口文件
   output: {
-    path: config.build.assetsRoot,
+    path: config.build_spa.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+      ? config.build_spa.assetsPublicPath
+      : config.dev_spa.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -30,11 +30,13 @@ module.exports = {
       '@assets': resolve('src/assets'),
       '@components': resolve('src/components'),
       '@pages': resolve('src/pages'),
-      '@app': resolve('src/pages/app'),
-      '@h5': resolve('src/pages/h5'),
-      '@modules': resolve('src/pages'),
-      '@router': resolve('src/router'),
-      '@vuex': resolve('src/vuex')
+      '@mpa': resolve('src/pages/mpa'),
+      '@spa': resolve('src/pages/spa'),
+      '@modules': resolve('src/modules'),
+      '@router': resolve('src/spa/router'),
+      '@vuex': resolve('src/spa/vuex'),
+      '@style': resolve('src/style'),
+      '@http': resolve('src/http/index.js')
     }
   },
   module: {
@@ -54,7 +56,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: utils.assetsPath('img/[name].[hash:7].[ext]', 'spa')
         }
       },
       {
@@ -62,7 +64,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          name: utils.assetsPath('media/[name].[hash:7].[ext]', 'spa')
         }
       },
       {
@@ -70,7 +72,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]', 'spa')
         }
       }
     ]

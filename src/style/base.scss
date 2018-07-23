@@ -1,0 +1,40 @@
+/*
+  OA项目样式规范
+  命名为：$样式类型-元素类型-(重要性)-描述类型
+*/
+
+
+/*文字颜色*/
+$color-text-important-link: #cc6d29;  // 重点链接文字
+$color-text-link: #b04f08;  // 链接文字、hover
+$color-text-important-prompt: #ff644c;  // 重要提示文字
+$color-text-important-main: #333333;  // 重要文字
+$color-text-content: #666666;  // 内容文字
+$color-text-prompt: #999; // 提示文字
+$color-text-placeholder: #bbb;  // input的placeholder
+
+/*背景颜色*/
+$color-bg-primary-btn: #ffaa00; // 按钮颜色
+$color-bg-tab: #ffaa00; // 标签背景
+$color-bg-hover-btn: #f29d00; // 按钮hover
+$color-bg-secondary-btn: #ff644c;  // 次要按钮
+$color-bg-hover: #fff8eb; // hover背景色
+$color-bg-header: #474342;  //  头部导航色
+$color-bg-page: #f2f2f2;  //  页面背景
+$color-bg-prompt: #f8f8f8;  // 提示
+$color-bg-table-header: #fafafa;  // 表格标题
+
+
+/*边框颜色*/
+$color-border-bottom: #ffaa00;    // 下划线颜色
+$color-border-error: #ff644c;   // 输入框错误提示
+$color-border-focus: #bbbbbb;   // 输入框选中
+$color-border-input: #dddddd;   // 输入框默认
+$color-border-important-line: #eeeeee;  // 分割线
+$color-border-line: #f2f2f2;    // 不重要的分割线
+
+/*定义大小*/
+$size-text-title: 18px;   // 标题文字
+$size-text-header: 16px;   // 头部文字
+$size-text-content: 14px;   // 内容文字
+$size-text-status: 12px;   // 状态文字

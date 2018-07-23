@@ -2,7 +2,7 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
+const vueLoaderConfig = require('./vue-loader.conf')('mpa')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -13,11 +13,11 @@ function resolve (dir) {
 module.exports = {
   entry: utils.entries(), //修改入口文件
   output: {
-    path: config.build.assetsRoot,
-    filename: '[name].js',
+    path: config.build_mpa.assetsRoot,
+    filename: utils.assetsPath('[name]/[name].js', 'mpa'),
     publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.app_dev.assetsPublicPath
+      ? config.build_mpa.assetsPublicPath
+      : config.dev_mpa.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -27,11 +27,13 @@ module.exports = {
       '@assets': resolve('src/assets'),
       '@components': resolve('src/components'),
       '@pages': resolve('src/pages'),
-      '@app': resolve('src/pages/app'),
-      '@h5': resolve('src/pages/h5'),
-      '@modules': resolve('src/pages'),
+      '@mpa': resolve('src/pages/mpa'),
+      '@main': resolve('src/pages/mpa/main'),
+      '@modules': resolve('src/modules'),
       '@router': resolve('src/router'),
-      '@vuex': resolve('src/vuex')
+      '@vuex': resolve('src/vuex'),
+      '@style': resolve('src/style'),
+      '@http': resolve('src/http/index.js')
     }
   },
   module: {
@@ -51,7 +53,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: utils.assetsPath('img/[name].[hash:7].[ext]', 'mpa')
         }
       },
       {
@@ -59,7 +61,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          name: utils.assetsPath('media/[name].[hash:7].[ext]', 'mpa')
         }
       },
       {
@@ -67,7 +69,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]', 'mpa')
         }
       }
     ]

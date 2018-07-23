@@ -1,0 +1,85 @@
+/*
+  布局样式
+*/
+@import "./base";
+
+.km-layout {
+  &-col {
+    @for $item from 1 through 24 {
+      &-#{$item} {
+        width: (100%/#{25 - $item})
+      }
+    }
+  }
+
+  @each $position, $value, $single in (top, 10, mt), (top, 20, mt), (top, 30, mt),(top, 40, mt),
+    (bottom, 10, mb), (bottom, 20, mb), (bottom, 30, mb),(bottom, 40, mb),
+    (left, 10, ml), (left, 20, ml), (left, 30, ml),(left, 40, ml),
+    (right, 10, mr), (right, 20, mr), (right, 30, mr),(right, 40, mr) {
+    &-#{$single}-#{$value} {
+      margin-#{$position}: #{$value}px
+    }
+  }
+
+  @each $position, $value, $single in (top, 10, pt), (top, 20, pt), (top, 30, pt),(top, 40, pt),
+    (bottom, 10, pb), (bottom, 20, pb), (bottom, 30, pb),(bottom, 40, pb),
+    (left, 10, pl), (left, 20, pl), (left, 30, pl),(left, 40, pl),
+    (right, 10, pr), (right, 20, pr), (right, 30, pr),(right, 40, pr) {
+    &-#{$single}-#{$value} {
+      padding-#{$position}: #{$value}px
+    }
+  }
+
+  &-float-l {
+    float: left;
+  }
+
+  &-float-r {
+    float: right;
+  }
+
+  &-clear {
+    overflow: hidden;
+  }
+
+  &-text-center {
+    text-align: center;
+  }
+
+  &-block-center {
+    margin: 0 auto;
+  }
+
+  &-pointer {
+    cursor: pointer;
+  }
+
+  &-header {
+    padding: 20px;
+    border-bottom: 1px solid $color-border-important-line;
+    height: 20px;
+    background: #fcfcfc;
+    overflow: hidden;
+    .km-layout-h1 {
+      float: left;
+      line-height: 20px;
+      font-weight: bold;
+      font-size: $size-text-title;
+      color: #222;
+    }
+    .km-layout-aside {
+      float: right;
+      line-height: 20px;
+      color: $color-text-important-link;
+      font-size: $size-text-content;
+    }
+  }
+
+  &-block {
+    display: block;
+  }
+
+  &-inline {
+    display: inline-block;
+  }
+}
