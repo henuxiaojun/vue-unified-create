@@ -1,32 +1,22 @@
 <template>
-  <table class="km-pc-table" :class="{'full': full}">
-    <slot name="table">
-      <thead>
-      <slot name="thead">
-        <tr>
-          <td :class="{'km-layout-text-center': center}" v-for="item in th">{{item.name || item}}</td>
-        </tr>
-      </slot>
-      </thead>
-      <tbody>
-      <slot name="tbody">
-        <tr v-for="(item, index) in td">
-          <td :class="{'km-layout-text-center': center}" v-for="value in th" v-if="value.prop === 'handle' ">
-            <span class="handler-btn km-layout-pointer" v-for="handle in value.handleItem" v-show="item.status === handle.status" @click="handleClick(handle, item, index)">{{handle.name}}</span>
-          </td>
-          <td :class="{'km-layout-text-center': center}" v-else-if="item.editStatus">
-            <label-input v-model="item[`${value.prop}Edit`]" :size="value.prop === 'number' ? 'small' : 'full'"></label-input>
-          </td>
-          <td :class="{'km-layout-text-center': center}" v-else>
-            {{item[value.prop]}}
-          </td>
-        </tr>
-      </slot>
-      </tbody>
-    </slot>
-  </table>
+  <km-table :full="full" :th="th" :td="td" :center="center">
+    <template slot="body">
+      <tr v-for="(item, index) in td">
+        <td :class="{'km-layout-text-center': center}" v-for="value in th" v-if="value.prop === 'handle' ">
+          <span class="handler-btn km-layout-pointer" v-for="handle in value.handleItem" v-show="item.status === handle.status" @click="handleClick(handle, item, index)">{{handle.name}}</span>
+        </td>
+        <td :class="{'km-layout-text-center': center}" v-else-if="item.editStatus">
+          <label-input v-model="item[`${value.prop}Edit`]" :size="value.prop === 'number' ? 'small' : 'full'"></label-input>
+        </td>
+        <td :class="{'km-layout-text-center': center}" v-else>
+          {{item[value.prop]}}
+        </td>
+      </tr>
+    </template>
+  </km-table>
 </template>
 <script>
+  import KmTable from '@components/table.vue'
   import LabelInput from '@components/label-input.vue'
   export default {
     name: 'km-pc-table',
@@ -54,7 +44,7 @@
     mounted() {
     },
     computed: {},
-    components: {LabelInput},
+    components: {LabelInput, KmTable},
     methods: {
       handleClick(handle, item, index) {
         this.$emit(handle.callback, item, index)

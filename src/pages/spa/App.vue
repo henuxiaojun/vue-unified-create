@@ -2,27 +2,19 @@
   <div id="app">
     <km-header :headList="headerData"></km-header>
     <km-aside :asideList="asideData"></km-aside>
-    <km-main :tabData="tabData"
-             :rightName="'新增'"
-             @rightClick="mainRightClick"
-             @tabClick="tabItemClick"
-    >
+    <km-main>
       <template slot="main-body">
-        <km-table
-          :th="tableData.th"
-          :td="tableData.td"
-          @tableEdit="tableEdit"
-          @tableDelete="tableDelete"
-          @tableSave="tableSave"
-          @tableCancel="tableCancel"
-        >
-        </km-table>
-      </template>
-    </km-main>
-    <km-main :headerName="'配置对应分配'">
-      <template slot="main-body">
-        <km-cascade @cascadeClick="cascadeItemClick" :list="cascadeData.company"></km-cascade>
-        <km-cascade @cascadeClick="cascadeItemClick" :list="cascadeData.first"></km-cascade>
+        <km-screen :screenData="screenData"></km-screen>
+        <km-check-box :checkData="checkChoiceData"></km-check-box>
+        <km-radio-box :radioData="radioChoiceData"></km-radio-box>
+        <km-search-input v-model="inputData.search"></km-search-input>
+        <km-input></km-input>
+        <km-pagination :count="paginationData.count" :number="paginationData.number" :cur.sync="paginationData.cur"></km-pagination>
+        <km-button @click="openDialog">打开dialog</km-button>
+        <km-button :btnType="'white'" @click="btnClick">取消</km-button>
+        <km-button :btnList="btnData" @click="btnClick"></km-button>
+        <km-dialog :isShow.sync="dialogShow"></km-dialog>
+        <km-table :th="tableData.th" :td="tableData.td" :height="200"></km-table>
       </template>
     </km-main>
   </div>
@@ -32,8 +24,16 @@
   import KmHeader from '@modules/km-pc-header.vue'
   import KmAside from '@modules/km-pc-aside.vue'
   import KmMain from '@modules/km-pc-main.vue'
-  import KmTable from '@modules/km-pc-table.vue'
   import KmCascade from '@modules/km-pc-cascade.vue'
+  import KmTable from '@components/table.vue'
+  import KmPagination from '@components/pagination.vue'
+  import KmCheckBox from '@components/check-box.vue'
+  import KmRadioBox from '@components/radio-box.vue'
+  import KmSearchInput from '@components/input-search.vue'
+  import KmInput from '@components/input-normal.vue'
+  import KmButton from '@components/button.vue'
+  import KmDialog from '@components/dialog.vue'
+  import KmScreen from '@components/screen.vue'
   import axios from '@http'
 
   export default {
@@ -141,44 +141,237 @@
         tableData: {
           th: [
             {
-              name: '序号',
+              name: '日期',
               id: 1,
-              prop: 'number'
+              fixed: true,
+              prop: 'date'
             },
             {
-              name: '付款公司',
+              name: '渠道',
               id: 2,
-              prop: 'company'
+              prop: 'channel'
             },
             {
-              name: '操作',
+              name: '日活',
               id: 3,
-              prop: 'handle',
-              handleItem: [
-                {
-                  name: '编辑',
-                  status: 1,
-                  callback: 'tableEdit'
-                },
-                {
-                  name: '删除',
-                  status: 1,
-                  callback: 'tableDelete'
-                },
-                {
-                  name: '保存',
-                  status: 2,
-                  callback: 'tableSave'
-                },
-                {
-                  name: '取消',
-                  status: 2,
-                  callback: 'tableCancel'
-                }
-              ]
+              prop: 'dau'
+            },
+            {
+              name: '月活',
+              id: 4,
+              prop: 'mau'
+            },
+            {
+              name: '月活',
+              id: 5,
+              prop: 'mau5'
+            },
+            {
+              name: '月活',
+              id: 6,
+              prop: 'mau6'
+            },
+            {
+              name: '月活',
+              id: 7,
+              prop: 'mau7'
+            },
+            {
+              name: '月活',
+              id: 8,
+              prop: 'mau8'
+            },
+            {
+              name: '月活',
+              id: 9,
+              prop: 'mau9'
+            },
+            {
+              name: '月活',
+              id: 10,
+              prop: 'mau10'
+            },
+            {
+              name: '月活',
+              id: 11,
+              prop: 'mau11'
+            },
+            {
+              name: '月活',
+              id: 12,
+              prop: 'mau12'
+            },
+            {
+              name: '月活',
+              id: 13,
+              prop: 'mau13'
+            },
+            {
+              name: '月活',
+              id: 14,
+              prop: 'mau14'
+            },
+            {
+              name: '月活',
+              id: 15,
+              prop: 'mau15'
             }
           ],
-          td: []
+          td: [
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            },
+            {
+              date: '2017-02-15',
+              channel: 'sm_kds_xdf',
+              dau: 2000,
+              mau: 2000,
+              mau5: 2000,
+              mau6: 2000,
+              mau7: 2000,
+              mau8: 2000,
+              mau9: 2000,
+              mau10: 2000,
+              mau11: 2000,
+              mau12: 2000,
+              mau13: 2000,
+              mau14: 2000,
+              mau15: 2000
+            }
+          ]
         },
         tabData: [
           {
@@ -205,80 +398,103 @@
         cascadeData: {
           company: [],
           first: []
+        },
+        paginationData: {
+          count: 101,
+          number: 5,
+          cur: 1
+        },
+        checkChoiceData: [
+          {label: '选择一', name: 'choice1', value: 'value1'},
+          {label: '选择二', name: 'choice1', value: 'value2'},
+          {label: '选择三', name: 'choice1', value: 'value3'},
+          {label: '选择四', name: 'choice1', value: 'value4'},
+          {label: '选择五', name: 'choice1', value: 'value5'}
+        ],
+        radioChoiceData: [
+          {label: '选择一', name: 'choice1', value: 'value1'},
+          {label: '选择二', name: 'choice1', value: 'value2'},
+          {label: '选择三', name: 'choice1', value: 'value3'},
+          {label: '选择四', name: 'choice1', value: 'value4'},
+          {label: '选择五', name: 'choice1', value: 'value5'}
+        ],
+        btnData: [
+          {
+            id: 1,
+            name: '提交',
+            btnType: 'normal'
+          },
+          {
+            id: 2,
+            name: '取消',
+            btnType: 'white'
+          }
+        ],
+        inputData: {
+          search: 'abv'
+        },
+        dialogShow: false,
+        screenData: {
+          title: '筛选标题',
+          list: [
+            {
+              name: '张小虎',
+              id: 111
+            },
+            {
+              name: '张小虎',
+              id: 111
+            },
+            {
+              name: '张小虎',
+              id: 111
+            },
+            {
+              name: '张小虎',
+              id: 111
+            },
+            {
+              name: '技术部',
+              id: 111,
+              children: [
+                {
+                  name: 'web开发组',
+                  id: 1111
+                },
+                {
+                  name: '安卓开发组',
+                  id: 1111
+                },{
+                  name: '苹果开发组',
+                  id: 1111
+                },{
+                  name: '测试质控组',
+                  id: 1111
+                }
+              ]
+            }
+          ]
         }
       }
     },
     mounted() {
-      this.pageInit()
-      this.getCascadeList()
     },
     components: {
       KmHeader,
       KmAside,
       KmMain,
       KmTable,
-      KmCascade
+      KmCascade,
+      KmPagination,
+      KmCheckBox,
+      KmRadioBox,
+      KmSearchInput,
+      KmInput,
+      KmButton,
+      KmDialog,
+      KmScreen
     },
     methods: {
-      pageInit() {
-        this.getTabList(1)
-      },
-      getTabList(id) {
-        axios.get(`/oa/list/?id=${id}`)
-          .then(res => {
-            res.forEach(item => {
-              if (!item.status) {
-                this.$set(item, 'status', 1)
-                this.handlerTableList((value) => {
-                  this.$set(item, `${value.prop}Edit`, item[value.prop])
-                })
-              }
-            })
-            this.tableData.td = res
-          })
-      },
-      getCascadeList() {
-        axios.get(`/oa/list/?id=1`)
-          .then(res => {
-            let data = {
-              id: 1,
-              index: 1,
-              choiceType: 'radio',
-              th: ['公司'],
-              td: []
-            }
-            res.forEach(item => {
-              if (!item.status) {
-                data.td.push({
-                  id: item.number,
-                  name: item.company,
-                  checked: false
-                })
-              }
-            })
-            this.cascadeData.company.push(data)
-          })
-        axios.get(`/oa/list/?id=3`)
-          .then(res => {
-            let data = {
-              id: 2,
-              index: 2,
-              choiceType: 'radio',
-              th: ['一级类型'],
-              td: []
-            }
-            res.forEach(item => {
-              if (!item.status) {
-                data.td.push({
-                  id: item.number,
-                  name: item.company,
-                  checked: false
-                })
-              }
-            })
-            this.cascadeData.first.push(data)
-          })
-      },
       handlerTableList(sentence) {
         this.tableData.th.forEach(value => {
           if (!value.handleItem) {
@@ -343,82 +559,11 @@
         this.$set(children, `status`, 2)
         this.tableData.td.unshift(children)
       },
-      cascadeItemClick(item, parent) {
-        if (parent.index === 1) {
-          if (this.cascadeData.company.length > 1) {
-            return
-          }
-          this.cascadeData.company.push(
-            {
-              id: 2,
-              choiceType: 'check',
-              th: ['项目'],
-              td: [
-                {
-                  id: 2,
-                  name: '阅读王',
-                  checked: false
-                },
-                {
-                  id: 2,
-                  name: '看点啥',
-                  checked: false
-                },
-                {
-                  id: 2,
-                  name: '梧桐阅读',
-                  checked: false
-                }
-              ]
-            },
-            {
-              id: 2,
-              choiceType: 'check',
-              th: ['一级类型'],
-              td: [
-                {
-                  id: 3,
-                  name: '办公费',
-                  checked: false
-                },
-                {
-                  id: 3,
-                  name: '推广费',
-                  checked: false
-                }
-              ]
-            }
-          )
-        } else {
-          if (this.cascadeData.first.length > 1) {
-            return
-          }
-          this.cascadeData.first.push(
-            {
-              id: 2,
-              choiceType: 'check',
-              th: ['二级类型'],
-              td: [
-                {
-                  id: 2,
-                  name: '其他1',
-                  checked: false
-                },
-                {
-                  id: 2,
-                  name: '其他2',
-                  checked: false
-                },
-                {
-                  id: 2,
-                  name: '其他3',
-                  checked: false
-                }
-              ]
-            }
-          )
-        }
-
+      btnClick(id) {
+        console.log(id);
+      },
+      openDialog() {
+        this.dialogShow = true
       }
     }
   }

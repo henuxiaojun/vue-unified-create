@@ -6,19 +6,20 @@
       {'big': size === 'big'},
       {'center': align === 'center'}
     ]">
-    <input :type="inputType" :value="value" @change="$emit('change', $event.target.value)">
+    {{label}}
+    <input :type="inputType" :placeholder="placeholder" :value="value" @input="$emit('input', $event.target.value)">
   </label>
 </template>
 <script>
   export default {
-    model: {
-      prop: 'value',
-      event: 'change'
-    },
     name: 'label-input',
     props: {
       value: {
         type: [String, Number],
+        default: ''
+      },
+      label: {
+        type: String,
         default: ''
       },
       inputType: {
@@ -32,6 +33,14 @@
       align: {
         type: String,
         default: 'center'
+      },
+      placeholder: {
+        type: String,
+        default: ''
+      },
+      readonly: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

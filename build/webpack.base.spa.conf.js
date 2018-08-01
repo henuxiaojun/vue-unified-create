@@ -36,7 +36,8 @@ module.exports = {
       '@router': resolve('src/spa/router'),
       '@vuex': resolve('src/spa/vuex'),
       '@style': resolve('src/style'),
-      '@http': resolve('src/http/index.js')
+      '@http': resolve('src/http/index.js'),
+      '@common': resolve('src/common')
     }
   },
   module: {

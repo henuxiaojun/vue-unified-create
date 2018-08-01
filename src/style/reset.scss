@@ -52,3 +52,13 @@ a, button {
   text-decoration: none;
 }
 
+input,button,select,textarea{
+  outline:medium;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
