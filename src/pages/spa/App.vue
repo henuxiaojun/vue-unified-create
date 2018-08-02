@@ -9,6 +9,7 @@
         <km-radio-box :radioData="radioChoiceData"></km-radio-box>
         <km-search-input v-model="inputData.search"></km-search-input>
         <km-input></km-input>
+        <km-input :placeholder="'请选择'" :size="'small'" :select="selectData"></km-input>
         <km-pagination :count="paginationData.count" :number="paginationData.number" :cur.sync="paginationData.cur"></km-pagination>
         <km-button @click="openDialog">打开dialog</km-button>
         <km-button :btnType="'white'" @click="btnClick">取消</km-button>
@@ -474,7 +475,29 @@
               ]
             }
           ]
-        }
+        },
+        selectData: [
+          {
+            name: '选项一',
+            id: 111
+          },
+          {
+            name: '选项二',
+            id: 111
+          },
+          {
+            name: '选项三',
+            id: 111
+          },
+          {
+            name: '选项四',
+            id: 111
+          },
+          {
+            name: '选项五',
+            id: 111
+          }
+        ]
       }
     },
     mounted() {
